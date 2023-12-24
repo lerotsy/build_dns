@@ -1,4 +1,6 @@
 import socket
+import struct
+from classes.DNSMessage import DNSMessage
 
 
 def main():
@@ -14,12 +16,37 @@ def main():
         try:
             buf, source = udp_socket.recvfrom(512)
     
-            response = b""
+            print('buffer is {}'.format(buf.decode()))
+            # breakpoint()
+            message = DNSMessage(id=1234, qr=1)
+            response = pack_dns_message(message)
     
             udp_socket.sendto(response, source)
         except Exception as e:
             print(f"Error receiving data: {e}")
             break
+
+def pack_dns_message(message: DNSMessage) -> bytes:
+    flags = (
+        (message.qr << 15)
+        | (message.opcode << 11)
+        | (message.aa << 10)
+        | (message.tc << 9)
+        | (message.rd << 8)
+        | (message.ra << 7)
+        | (message.z << 4)
+        | message.rcode
+    )
+
+    return struct.pack(
+        ">HHHHHH",
+        message.id,
+        flags,
+        message.qdcount,
+        message.ancount,
+        message.nscount,
+        message.arcount
+    )
 
 
 if __name__ == "__main__":
