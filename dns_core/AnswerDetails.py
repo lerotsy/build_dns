@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 import struct
 
-@dataclass
+@dataclass(init=False)
 class AnswerDetails:
     rname: str
     rtype: int
     rclass: int
     rttl: int
-    rlength: int
     rdata: bytes
 
     def __post_init__(self):
