@@ -1,6 +1,6 @@
 import socket
 import struct
-from classes.DNSMessage import DNSMessage
+from dns_core.DNSMessage import DNSMessage
 
 
 def main():
