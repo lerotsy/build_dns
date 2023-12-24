@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from .MessageFormatter import encode_name
 import struct
 
 @dataclass
@@ -12,6 +11,7 @@ class AnswerDetails:
     rdata: bytes
 
     def __post_init__(self):
+        from .MessageFormatter import encode_name
         self.rname = encode_name(self.rname)
         self.rlength = len(self.rdata)
 
