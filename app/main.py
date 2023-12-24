@@ -16,7 +16,7 @@ def main():
         try:
             buf, source = udp_socket.recvfrom(512)
     
-            print('buffer is {}'.format(buf.decode()))
+            # print('buffer is {}'.format(buf.decode()))
             message = DNSMessage(id=1234, qr=1)
             response = pack_dns_message(message)
             breakpoint()
