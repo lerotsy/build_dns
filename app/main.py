@@ -19,7 +19,7 @@ def main():
         try:
             buf, source = udp_socket.recvfrom(512)
 
-            answer = AnswerDetails(rname='codecrafters.io', rtype=TYPE_A, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
+            answer = AnswerDetails(rname='codecrafters.io', rtype=TYPE_A, rttl=60, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
             message = DNSMessage(id=1234, qr=1, qdcount=1, qname='codecrafters.io', ancount=1, qtype=TYPE_A, qclass=CLASS_IN, answer=answer)
             response = MessageFormatter.pack_dns_message(message)
             udp_socket.sendto(response, source)
