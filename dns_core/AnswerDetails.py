@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 import struct
 
-@dataclass(init=False)
+@dataclass
 class AnswerDetails:
     rname: str
     rtype: int
     rclass: int
     rttl: int
     rdata: bytes
+    rlength: int = 0
 
     def __post_init__(self):
         from .MessageFormatter import encode_name
