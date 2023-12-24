@@ -19,7 +19,6 @@ def main():
             # print('buffer is {}'.format(buf.decode()))
             message = DNSMessage(id=1234, qr=1)
             response = pack_dns_message(message)
-            breakpoint()
             udp_socket.sendto(response, source)
         except Exception as e:
             print(f"Error receiving data: {e}")
