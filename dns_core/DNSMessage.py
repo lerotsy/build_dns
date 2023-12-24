@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from .AnswerDetails import AnswerDetails
 @dataclass
 class DNSMessage:
     #Question
@@ -18,3 +19,4 @@ class DNSMessage:
     ancount: int = 0  # 16 bits (Answer Record Count)
     nscount: int = 0  # 16 bits (Authority Record Count)
     arcount: int = 0  # 16 bits (Additional Record Count)
+    answer: AnswerDetails
