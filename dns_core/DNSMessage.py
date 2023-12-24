@@ -1,17 +1,20 @@
 from dataclasses import dataclass
-
 @dataclass
 class DNSMessage:
-    id: int
-    qr: int
-    opcode: int = 0
-    aa: int = 0
-    tc: int = 0
-    rd: int = 0
-    ra: int = 0
-    z: int = 0
-    rcode: int = 0
-    qdcount: int = 0
-    ancount: int = 0
-    nscount: int = 0
-    arcount: int = 0
+    #Question
+    qname: str
+    qtype: int
+    qclass: int
+    id: int  # 16 bits (Packet Identifier)
+    qr: int  # 1 bit (Query/Response Indicator)
+    opcode: int = 0  # 4 bits (Operation Code)
+    aa: int = 0  # 1 bit (Authoritative Answer)
+    tc: int = 0  # 1 bit (Truncation)
+    rd: int = 0  # 1 bit (Recursion Desired)
+    ra: int = 0  # 1 bit (Recursion Available)
+    z: int = 0  # 3 bits (Reserved)
+    rcode: int = 0  # 4 bits (Response Code)
+    qdcount: int = 0  # 16 bits (Question Count)
+    ancount: int = 0  # 16 bits (Answer Record Count)
+    nscount: int = 0  # 16 bits (Authority Record Count)
+    arcount: int = 0  # 16 bits (Additional Record Count)
