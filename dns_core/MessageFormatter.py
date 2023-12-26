@@ -1,59 +1,55 @@
-from .DNSMessage import DNSMessage
 import struct
+from .constants import TYPE_A, CLASS_IN
 
 class MessageFormatter:
     @staticmethod
-    def pack_dns_message(message: DNSMessage) -> bytes:
-        header = MessageFormatter.build_header(message)
-        question = MessageFormatter.build_question(message)
-        answer = MessageFormatter.build_answer(message)
+    def parse_question(question_section: bytes = b''):
+        from .QuestionDetails import QuestionDetails
+        # hardcoded for now
+        return QuestionDetails(qname='codecrafters.io', qtype=TYPE_A, qclass=CLASS_IN )
 
+    @staticmethod
+    def parse_header(header: bytes):
+        from .HeaderDetails import HeaderDetails
+        if len(header) != 12:
+            raise ValueError("header must be of length 12")
+
+        id, flags, qdcount, ancount, nscount, arcount = struct.unpack('>HHHHHH', header)
+        qr = 1
+        opcode = (flags >> 11) & 0b1111
+        rd = (flags >> 8) & 0b1
+        rcode = 0 if opcode == 0 else 4
+
+        return HeaderDetails(
+            id=id,
+            qr=qr,
+            opcode=opcode,
+            rd=rd,
+            rcode=rcode,
+            qdcount=qdcount,
+            ancount=ancount,
+            nscount=nscount,
+            arcount=arcount
+        )
+
+    @staticmethod
+    def process(buffer: bytes) -> bytes:
+        from .AnswerDetails import AnswerDetails
+        header_section = buffer[:12] # header always the first 12 bytes
+        header = MessageFormatter.parse_header(header_section)
+        question = MessageFormatter.parse_question()
+        answer = AnswerDetails(rname='codecrafters.io', rtype=TYPE_A, rttl=60, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
         return (
-            header
-            + question
-            + answer
+            header.to_bytes()
+            + question.to_bytes()
+            + answer.to_bytes()
         )
 
-    @staticmethod
-    def build_header(message: DNSMessage) -> bytes:
-        flags = (
-            (message.qr << 15)
-            | (message.opcode << 11)
-            | (message.aa << 10)
-            | (message.tc << 9)
-            | (message.rd << 8)
-            | (message.ra << 7)
-            | (message.z << 4)
-            | message.rcode
-        )
-        return struct.pack(
-                ">HHHHHH",
-                message.id,
-                flags,
-                message.qdcount,
-                message.ancount,
-                message.nscount,
-                message.arcount
-            )
 
-    @staticmethod
-    def build_answer(message: DNSMessage) -> bytes:
-        name = message.answer.rname
-        type = struct.pack(">H", message.answer.rtype)
-        class_value = struct.pack(">H", message.answer.rclass)
-        ttl = struct.pack(">I", message.answer.rttl)
-        length = struct.pack(">H", message.answer.rlength)
-        data = message.answer.rdata
-        return name + type + class_value + ttl + length + data
-
-    @staticmethod
-    def build_question(message: DNSMessage) -> bytes:
-        encoded_question = encode_name(message.qname)
-        return encoded_question + struct.pack(">HH", message.qtype, message.qclass)
     
 def encode_name(url: str) -> bytes:
     labels = url.split('.')
     encoded_labels = [bytes([len(l)]) + l.encode('utf-8') for l in labels]
     # Add the null terminator at the end
     encoded_labels.append(b'\x00')
-    return b''.join(encoded_labels) 
+    return b''.join(encoded_labels)
