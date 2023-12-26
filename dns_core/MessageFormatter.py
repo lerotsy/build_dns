@@ -39,6 +39,7 @@ class MessageFormatter:
         header = MessageFormatter.parse_header(header_section)
         question = MessageFormatter.parse_question()
         answer = AnswerDetails(rname='codecrafters.io', rtype=TYPE_A, rttl=60, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
+        # breakpoint()
         return (
             header.to_bytes()
             + question.to_bytes()
