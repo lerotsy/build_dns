@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 import struct
+from typing import Union
 
 @dataclass
 class AnswerDetails:
-    rname: str
+    rname: Union[str, bytes]
     rtype: int
     rclass: int
     rttl: int
@@ -12,7 +13,8 @@ class AnswerDetails:
 
     def __post_init__(self):
         from .MessageFormatter import encode_name
-        self.rname = encode_name(self.rname)
+        if isinstance(self.qname, str):
+            self.qname = encode_name(self.qname)
         self.rlength = len(self.rdata)
     
     def to_bytes(self) -> bytes:
