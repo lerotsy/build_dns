@@ -13,8 +13,8 @@ class AnswerDetails:
 
     def __post_init__(self):
         from .MessageFormatter import encode_name
-        if isinstance(self.qname, str):
-            self.qname = encode_name(self.qname)
+        if isinstance(self.rname, str):
+            self.rname = encode_name(self.rname)
         self.rlength = len(self.rdata)
     
     def to_bytes(self) -> bytes:
