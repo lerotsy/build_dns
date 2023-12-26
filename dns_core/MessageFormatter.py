@@ -26,8 +26,8 @@ class MessageFormatter:
             opcode=opcode,
             rd=rd,
             rcode=rcode,
-            qdcount=qdcount,
-            ancount=ancount,
+            qdcount=1,
+            ancount=1,
             nscount=nscount,
             arcount=arcount
         )
