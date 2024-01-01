@@ -2,7 +2,7 @@ import struct
 from .constants import TYPE_A, CLASS_IN
 
 
-class MessageFormatter:
+class DnsRequestHandler:
     @staticmethod
     def parse_question(buffer: bytes = b''):
         from .QuestionDetails import QuestionDetails
@@ -43,8 +43,8 @@ class MessageFormatter:
     def process(buffer: bytes) -> bytes:
         from .AnswerDetails import AnswerDetails
         header_section = buffer[:12]  # header always the first 12 bytes
-        header = MessageFormatter.parse_header(header_section)
-        question = MessageFormatter.parse_question(buffer)
+        header = DnsRequestHandler.parse_header(header_section)
+        question = DnsRequestHandler.parse_question(buffer)
         # answer = AnswerDetails(rname='codecrafters.io', rtype=TYPE_A, rttl=60, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
         answer = AnswerDetails(rname=question.qname, rtype=TYPE_A,
                                rttl=60, rclass=CLASS_IN, rdata=b'\x08\x08\x08\x08')
