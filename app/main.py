@@ -1,6 +1,6 @@
 import socket
 import struct
-from dns_core.MessageFormatter import MessageFormatter
+from dns_core.dns_request_handler import DnsRequestHandler
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
         try:
             buffer, source = udp_socket.recvfrom(512)
 
-            response = MessageFormatter.process(buffer)
+            response = DnsRequestHandler.process(buffer)
             udp_socket.sendto(response, source)
         except Exception as e:
             print(f"Error receiving data: {e}")
