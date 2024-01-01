@@ -12,7 +12,7 @@ class AnswerDetails:
     rlength: int = 0
 
     def __post_init__(self):
-        from .MessageFormatter import encode_name
+        from .dns_request_handler import encode_name
         if isinstance(self.rname, str):
             self.rname = encode_name(self.rname)
         self.rlength = len(self.rdata)

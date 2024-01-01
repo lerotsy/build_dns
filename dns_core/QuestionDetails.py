@@ -9,7 +9,7 @@ class QuestionDetails:
     qclass: int # Question Class (16 bits)
 
     def __post_init__(self):
-        from .MessageFormatter import encode_name
+        from .dns_request_handler import encode_name
         # if we pass a string like 'codecracters.io' we need encode it
         if isinstance(self.qname, str):
             self.qname = encode_name(self.qname)
