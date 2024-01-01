@@ -3,7 +3,7 @@ This is a starting point for Python solutions to the
 ["Build Your Own DNS server" Challenge](https://app.codecrafters.io/courses/dns-server/overview).
 
 
-This project is my implementation of a DNS server for a coding challenge on the CC platform. Developed using Python 3.11, the server is designed to parse and create DNS packets, respond to DNS queries, and handle various DNS record types, including A, AAAA, and CNAME, among others. While the server has limited functionality and primarily focuses on parsing DNS packets and providing hardcoded responses, it serves as a practical exercise in understanding the DNS protocol, packet format, and the roles of different types of DNS servers.
+This project is my implementation of a DNS server for a coding challenge on Codecrafters. Developed using Python 3.11, the server is designed to parse and create DNS packets, respond to DNS queries, and handle various DNS record types, including A, AAAA, and CNAME, among others. While the server has limited functionality and primarily focuses on parsing DNS packets and providing hardcoded responses, it serves as a practical exercise in understanding the DNS protocol, packet format, and the roles of different types of DNS servers.
 
 
 **Note**: If you're viewing this repo on GitHub, head over to
